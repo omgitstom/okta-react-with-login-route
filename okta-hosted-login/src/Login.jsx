@@ -12,14 +12,24 @@
 
 import { withAuth } from '@okta/okta-react';
 import React, { Component } from 'react';
+import { checkAuthentication } from './helpers';
 
 export default withAuth(class Login extends Component {
-  constructor (props){
-    super(props)
-    this.props.auth.login();
+  constructor(props){
+    super(props);
+    this.state = { authenticated: null, userinfo: null };
+    this.checkAuthentication = checkAuthentication.bind(this);
   }
+
   async componentDidMount (){
-    this.props.auth.login();
+    this.checkAuthentication().then((response) => {
+        if(!this.state.authenticated){
+          this.props.auth.login();
+        }
+      }, (error) => {
+        console.log("error", error);
+      });
+
   }
   render (){
     return (<div>redirecting...</div>);
