@@ -24,7 +24,7 @@ export default withAuth(class Login extends Component {
   async componentDidMount (){
     this.checkAuthentication().then((response) => {
         if(!this.state.authenticated){
-          this.props.auth.login();
+          this.props.auth.login('/profile');
         }
       }, (error) => {
         console.log("error", error);
